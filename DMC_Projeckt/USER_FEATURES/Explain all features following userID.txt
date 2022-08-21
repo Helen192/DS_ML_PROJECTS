@@ -1,0 +1,43 @@
+# Purpose of this file:
+Authors: User team | 16.6.2022
+
+0. All features are calculated based on the all orders occured until **the end of 31.01.2021**. The original data is from **new_orders_aggregation.csv**
+1. Feature named **u_EF** (Engagement feature). This feature shows us the amount of months that each userID has had at least one order during the period of time.
+    - The way to calculate it:
+        * For example, userID 10 had following orders overtime:
+            * date : order
+            * 2.6.21 : 1
+            * 13.6.21 : 2
+            * 27.6.21 : 1
+            * 10.10.21 : 3
+        --> **EF  = 2**
+2. Feature named **u_avg_orders** shows us the average orders of each userID over the time. It is calculated by the total number of orders of each userID divides the amount of their orders
+3. Feature named **u_avg_period**. This feature gives us the information about the average cycle (frequency) that one userID made one order
+    - Preprocessing data: 
+        * merging userID and date
+        * dropping duplicated row ( which have the same userID and date)
+    - Then calculating:
+        * For example, we know that one user A made an order on normalized_days_list: [23, 41, 50]:
+            * **u_avg_period = ((50 - 41) + (41 - 23)) / (len(days_list) - 1) = 13.5**
+            * To be clearer, we calculate the average distance between elements in normalized_days_list
+4. Features named **u_first_day** and **u_last_day** tell us when is the first day and the last day that one userID made an order
+5. Feature **u_std_avg_period** is the standard deviation which is calculated based on the user_avg_period
+    - It tells us how spread out the average period of purchasing of each user
+    - Method of calculation:
+        * For example, we know that one user A made an order on normalized_day_list: [23, 41, 50]:
+            * **u_avg_period = ((50 - 41) + (41 - 23)) / (len(days_list) - 1) = 13.5**
+            * distance between days in normalized_day_list are: 9, 18
+            * u_std_avg_period = $sqr(1/2 * ((9 - 13.5)^2 + (18 - 13.5)^2)) $
+6. Feature **u_mean_bought** is the mean value of all days that one user made an order during the period of time
+    - For example, we know that one user A made an order on normalized_days_list: [23, 41, 50]:
+        * **u_mean_bought = (23 + 41 + 50) / len(normalized_days_list)**
+7. Feature **u_std_bought** is the standard deviation which is calculated based on the user_mean_bought. 
+
+
+- **Explain one observation (each userID)**: For each userID, we know:
+    * how many different months in which the user made at least an order (u_EF)
+    * the average amount of orders that the user bought (u_avg_orders)
+    * the frequency of purchasing (u_avg_period)
+    * the first and last normalized days that the user bought something (u_first_bought, u_last_bought)
+    * the standard deviation of frequency of purchasing (u_std_avg_period)
+    * the mean of normalized day that the user bought something (u_mean_bought) and the standard deviation based on this mean (u_std_bought)

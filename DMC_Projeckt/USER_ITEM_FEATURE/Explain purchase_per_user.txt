@@ -1,0 +1,1 @@
+purchase_history_per_user is the dataframe which manage all purchase history of each userID in the period of time from June 2020 to January 2021. Therefore, from this dataframe we can search for one userID to know all the itemID they bought and the time of transaction
